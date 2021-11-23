@@ -15,10 +15,17 @@
             </div>
             <nav class="column is-one-fourths">
                 <ul class="navbar has-text-centered">
-                    <li class="navbar-item"><a>Home</a></li>
-                    <li class="navbar-item"><a>Dashboard</a></li>
-                    <li class="navbar-item"><a>Login</a></li>
-                    <li class="navbar-item"><a>Logout</a></li>
+                    {{#if loggedIn}}
+                    {{log 'Handlebars here'}}
+                    <li class="navbar-item"><a href="/">Home</a></li>
+                    <li class="navbar-item"><a href="/dashboard">Dashboard</a></li>
+                    <li class="navbar-item"><a href="/register">Register</a></li>
+                    {{else}}
+                    {{log 'Handlebars not loggd in'}}
+                    <li class="navbar-item"><a href="/">Home</a></li>
+                    <li class="navbar-item"><a href="/login">Login</a></li>
+                    <li class="navbar-item"><a href="/register">Register</a></li>
+                    {{/if}}
                 </ul>
             </nav>
         </header>
@@ -26,5 +33,4 @@
             {{{body}}}
         </main>
     </body>
-
 </html>

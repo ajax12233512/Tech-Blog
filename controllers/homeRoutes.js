@@ -1,12 +1,51 @@
 const router = require('express').Router();
-const Post = require('../models/Post');
-const User = require('../models/User');
+const { Post } = require('../models');
+const { User } = require('../models');
 
-router.get('/', (req, res) =>{
-    res.render('homepage');
+router.get('/', async (req, res) =>{
+    try{
+        const allPosts = await Post.findAll();
+        const plainAllPosts =  (allPosts.map(post => {
+            return post.get({plain: true});
+        }))
+        res.render('homepage', {plainAllPosts, loggedIn : req.session.loggedIn});
+    } catch (err) {
+        console.log(err);
+    }
 });
 
-router.get('/users', async (req, res)=>{
+
+router.route('/login')
+    .get((req, res)=>{
+        res.render('login', {loggedIn: req.session.loggedIn});
+    })
+
+// Dashboard
+router.route('/dashboard')
+.get(async(req, res)=>{
+    try{
+        const userPosts = await User.findOne({
+            where: {
+                username : req.session.username,
+                password : req.session.password
+            },
+            include: [
+                {
+                    model: Post
+                }
+            ]
+        });
+        console.log(userPosts);
+        const plainUserPosts = userPosts.get({plain: true});
+        res.render('dashboard', {plainUserPosts, loggedIn: req.session.loggedIn});
+    } catch(err){
+        res.status(500).json({Error: {err}, message: 'not rendering the right text. Still a work in progress'});
+        console.log(err);
+    }
+    
+})
+
+router.get('/allUsers', async (req, res)=>{
     try{
         const allUsers = await User.findAll();
         res.json(allUsers);
@@ -19,25 +58,16 @@ router.route('/register')
     .get((req, res) =>{
         res.render('register');
     })
-    .post( async(req, res) =>{
-        try{
-            const newUser = await User.create({
-                username: req.body.username,
-                password: req.body.password
-            });
-            res.status(200).json({user: newUser, message: 'New user created'});
-        } catch(err) {
-            console.log(err);
-            res.status(500).json(err);
-        }
-    });
+
+router.route('/login')
+.get((req, res)=>{
+    res.render('login');
+})
+
 
 router.get('/allPosts', async(req, res) =>{
     try{
         const allPosts = await Post.findAll();
-        // const newAllPosts = allPosts.map((post) =>{
-        //     post.get({plain : true});
-        // });
         res.status(200).json(allPosts);
     } catch(err){
         res.status(500).json(err);
@@ -52,18 +82,6 @@ router.route('/posts')
             res.json(err)
         }
     })
-    .post( async(req, res) =>{
-        try{
-            const newPost = await Post.create({
-                title: req.body.title,
-                content: req.body.content,
-                date_posted: req.body.date_posted
-            });
-            res.status(200).json({user: newPost, message: 'New Post created'});
-        } catch(err) {
-            console.log(err);
-            res.status(500).json(err);
-        }
-    });
 
+    
 module.exports = router;
