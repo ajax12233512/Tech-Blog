@@ -4,7 +4,20 @@
 
 <div class="container">
     <div class="box">
-        <button class="button is-primary">Create</button>
+        <button id="createPostBtn" class="button is-primary">Create</button>
+    </div>
+</div>
+
+<div class="container" id="formCtn" style="display: none;">
+    <div class="box">
+        <form id="createPostForm">
+            <h1 class="title is-3">Create Post</h1>
+            <label for="title">Title</label>
+            <input class="input" type="text" id="title">
+            <label for="content">Content</label>
+            <input class="input" type="text" id="content">
+            <button id="submitPostBtn" class="button is-success">Submit Post</button>
+        </form>
     </div>
 </div>
 
@@ -22,3 +35,5 @@
     </div>
 </div>
 {{/each}}
+
+<script src="/js/dashboard.js"></script>

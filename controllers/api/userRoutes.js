@@ -46,6 +46,7 @@ router.route('/login')
                 req.session.loggedIn = true;
                 req.session.username = req.body.username,
                 req.session.password = req.body.password
+                req.session.userId = loginUser.get('id');
                 console.log('Conole here: Logged In', req.session.cookie);
                 res.status(200).json({message: 'User logged In'});
             });
@@ -59,12 +60,13 @@ router.route('/login')
 
     });
 
-    router.post('/posts', async(req, res) =>{
+    router.post('/createPosts', async(req, res) =>{
         try{
             const newPost = await Post.create({
                 title: req.body.title,
                 content: req.body.content,
-                date_posted: req.body.date_posted
+                date_posted: req.body.date_posted,
+                user_id: req.session.userId
             });
             res.status(200).json({user: newPost, message: 'New Post created'});
         } catch(err) {

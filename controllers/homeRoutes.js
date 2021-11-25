@@ -56,7 +56,7 @@ router.get('/allUsers', async (req, res)=>{
 
 router.route('/register')
     .get((req, res) =>{
-        res.render('register');
+        res.render('register', {loggedIn : req.session.loggedIn});
     })
 
 router.route('/login')
