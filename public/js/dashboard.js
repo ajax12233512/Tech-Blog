@@ -15,7 +15,8 @@ function createPost(e){
     }
 }
 
-async function submitPost(){
+function submitPost(e){
+    e.preventDefault();
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
 
@@ -25,7 +26,7 @@ async function submitPost(){
         date_posted : Date.now()
     }
 
-    const response = await fetch('api/users/createPosts', {
+    const response = fetch('api/users/createPosts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -34,7 +35,7 @@ async function submitPost(){
     });
 
     if(response.ok){
-        // document.location.reload;
+        document.location.reload;
         // console.log(response.JSON)
     } else {
         alert('Create Post Failed');
