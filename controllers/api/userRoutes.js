@@ -13,8 +13,9 @@ router.post('/register', async(req, res) =>{
 
         req.session.save(() =>{
             req.session.loggedIn = true;
-            req.session.username = req.body.username,
-            req.session.password = req.body.password
+            req.session.username = req.body.username;
+            req.session.password = req.body.password;
+            req.session.userId = loginUser.get('id');
             console.log('Conole here: Logged In', req.session.cookie);
         });
 

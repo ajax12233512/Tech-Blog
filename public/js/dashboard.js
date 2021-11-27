@@ -15,7 +15,7 @@ function createPost(e){
     }
 }
 
-function submitPost(){
+async function submitPost(){
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
 
@@ -25,7 +25,7 @@ function submitPost(){
         date_posted : Date.now()
     }
 
-    const response = fetch('api/users/createPost', {
+    const response = await fetch('api/users/createPosts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -34,10 +34,12 @@ function submitPost(){
     });
 
     if(response.ok){
-        document.location.reload;
+        // document.location.reload;
+        // console.log(response.JSON)
     } else {
         alert('Create Post Failed');
     }
 }  
 
 createPostBtn.addEventListener('click', createPost);
+submitPostBtn.addEventListener('click', submitPost);
