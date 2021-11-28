@@ -26,21 +26,26 @@ function submitPost(e){
         date_posted : Date.now()
     }
 
-    const response = fetch('api/users/createPosts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(fetchBody)
-    });
+    const request = async () => { 
+        return await fetch('api/users/createPosts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fetchBody)
+        }).then((response) =>{
+            if(response.ok){
+                document.location.reload();
+                } else {
+                    console.log(response.ok)
+                    alert('Create Post Failed');
+                }
+        });
+    }   
 
-    if(response.ok){
-        document.location.reload;
-        // console.log(response.JSON)
-    } else {
-        alert('Create Post Failed');
-    }
+    request();
 }  
+
 
 createPostBtn.addEventListener('click', createPost);
 submitPostBtn.addEventListener('click', submitPost);
