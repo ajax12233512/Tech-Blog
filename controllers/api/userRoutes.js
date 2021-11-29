@@ -99,4 +99,26 @@ router.route('/login')
         }
     })
 
+    router.delete('/deletePosts', async(req, res)=>{
+        try{
+            const selectedPost = await Post.findOne({
+                where: {
+                    id: req.body.postId                
+                }
+            });
+            
+            if(!selectedPost){
+                // console.log('no user selected');
+                res.status(500).json('no user selected')
+            } else {
+                await selectedPost.destroy();
+                res.status(200).json(selectedPost);
+            }
+            
+
+        } catch (err) {
+            res.status(500).json('Something went wrong');
+        }
+    });
+
     module.exports = router;

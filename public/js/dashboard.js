@@ -2,6 +2,7 @@ const createPostBtn = document.getElementById('createPostBtn');
 const formCtn = document.getElementById('formCtn');
 const submitPostBtn = document.getElementById('submitPostBtn');
 const editBtns = document.querySelectorAll('#editBtns');
+const deleteBtns = document.querySelectorAll('#deleteBtns');
 
 function createPost(e){
     e.preventDefault();
@@ -95,6 +96,29 @@ editBtns.forEach(btn => {
 
     })
 })
+
+deleteBtns.forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+        const thisDeleteBtn = e.target;
+        const postId = thisDeleteBtn.parentElement.children[4].children[0].children[0].innerText;
+
+        fetch('api/users/deletePosts', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({postId})
+        }).then((response) =>{
+            console.log(response);
+            if(response.ok){
+                    document.location.reload();
+                } else {
+                    console.log(response.ok)
+                    alert('Delete Post Failed');
+                }
+        });
+    })
+});
 
 
 createPostBtn.addEventListener('click', createPost);
