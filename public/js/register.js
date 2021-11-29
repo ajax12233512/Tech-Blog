@@ -10,13 +10,14 @@ window.addEventListener('submit', (e)=>{
     });
 
     const fetchRequest = async () => await fetch(request).then( (response) =>{
-        response.json();
-    }).then( (data) => {
-        console.log(data);
-        document.location.replace('/');
-    }).catch( (err) => {
-        err.json();
-    })
+        if(response.ok){
+            document.location.replace('/');
+        } else{
+           alert('Something went wrong');
+        }
+    }).then((response) => {
+        
+    });
     
     fetchRequest();
 });

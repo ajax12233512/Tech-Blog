@@ -9,14 +9,18 @@ router.post('/register', async(req, res) =>{
             username: req.body.username,
             password: req.body.password
         });
-        res.status(200).json({user: newUser, message: 'New user created'});
+        
 
         req.session.save(() =>{
             req.session.loggedIn = true;
             req.session.username = req.body.username,
-            req.session.password = req.body.password
+            req.session.password = req.body.password,
+            req.session.userId = newUser.get('id');
             console.log('Conole here: Logged In', req.session.cookie);
+            res.status(200).redirect('/');
         });
+
+        
 
     } catch(err) {
         console.log(err);
@@ -24,6 +28,14 @@ router.post('/register', async(req, res) =>{
     }
 });
 
+router.delete('/logout', async(req, res)=>{
+    try{
+        await req.session.destroy();
+        res.status(200).json({message: 'User Logged Out'})
+    } catch(err){
+        res.status(500).json({message: 'Error'});
+    }
+})
 
 router.route('/login')
     .post( async(req, res)=>{
