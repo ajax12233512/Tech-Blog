@@ -1,9 +1,9 @@
 <div class="container">
-    <h1 class="title is-1">Welcome: {{username}}</h1>
+    <h1 class="title is-1">Welcome, {{plainUserPosts.username}}</h1>
 </div>
 
 <div class="container">
-    <div class="box">
+    <div class="box has-text-centered">
         <button id="createPostBtn" class="button is-primary">Create</button>
     </div>
 </div>
@@ -23,7 +23,7 @@
 
 {{#each plainUserPosts.posts}}
 <div class="container">
-    <div class="box">
+    <div class="box has-background-primary-light has-text-centered">
 
         {{!-- Post title --}}
         <h1 class="title is-2">{{title}}</h1>
