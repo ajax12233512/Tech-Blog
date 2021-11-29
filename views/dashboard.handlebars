@@ -24,15 +24,28 @@
 {{#each plainUserPosts.posts}}
 <div class="container">
     <div class="box">
+
         {{!-- Post title --}}
         <h1 class="title is-2">{{title}}</h1>
         {{!-- Post content --}}
         <p>{{content}}</p>
 
-        <button class="button is-warning">Edit</button>
-        <button class="button is-danger">Create</button>
-   
+        <button id="editBtns" class="button is-warning">Edit</button>
+        <button class="button is-danger">Delete</button>
+    
+        <div id="editFormBox" class="box" style="display: none;">
+            <form id="editForm">
+                <h1 id="postId" style="display: none">{{id}}</h1>
+                <label for="editTitle">Title</label>
+                <input class="input" id="editTitle" type="text">
+                <label for="editContent">Content</label>
+                <input class="input" id="editContent" type="text">
+                <button class="button is-success">Submit Edit</button>
+            </form>
+        </div>
+
     </div>
+    
 </div>
 {{/each}}
 

@@ -1,6 +1,7 @@
 const createPostBtn = document.getElementById('createPostBtn');
 const formCtn = document.getElementById('formCtn');
 const submitPostBtn = document.getElementById('submitPostBtn');
+const editBtns = document.querySelectorAll('#editBtns');
 
 function createPost(e){
     e.preventDefault();
@@ -45,6 +46,55 @@ function submitPost(e){
 
     request();
 }  
+
+
+editBtns.forEach(btn => {
+    btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        // console.log(e.target.parentElement.children[4])
+        const editFormBox = e.target.parentElement.children[4];
+        const postId = editFormBox.children[0].children[0].innerText;
+        const submitEditBtn = editFormBox.children[0].children[5];
+        console.log();
+        
+        
+        if(e.target.innerText === 'Edit'){
+            editFormBox.style.display = 'block';
+            e.target.backgroundColor = 'hsl(345, 100%, 61%)'
+            e.target.innerText = 'Cancel'
+        } else {
+            editFormBox.style.display = 'none';
+            e.target.backgroundColor = 'hsl(171, 100%, 41%)'
+            e.target.innerText = 'Edit';
+        }
+
+        submitEditBtn.addEventListener('click', (e)=>{
+            e.preventDefault();
+            const updatedTitle = editFormBox.children[0].children[2].value;
+            const updatedContent = editFormBox.children[0].children[4].value;
+
+
+            fetch('api/users/editPosts', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({updatedTitle, updatedContent, postId})
+            }).then((response) =>{
+                console.log(response);
+                if(response.ok){
+                        document.location.reload();
+                    } else {
+                        console.log(response.ok)
+                        alert('Edit Post Failed');
+                    }
+            });
+
+            console.log('submit button clicked');
+        })
+
+    })
+})
 
 
 createPostBtn.addEventListener('click', createPost);

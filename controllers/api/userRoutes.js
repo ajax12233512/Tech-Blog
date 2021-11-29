@@ -13,9 +13,8 @@ router.post('/register', async(req, res) =>{
 
         req.session.save(() =>{
             req.session.loggedIn = true;
-            req.session.username = req.body.username;
-            req.session.password = req.body.password;
-            req.session.userId = loginUser.get('id');
+            req.session.username = req.body.username,
+            req.session.password = req.body.password
             console.log('Conole here: Logged In', req.session.cookie);
         });
 
@@ -67,7 +66,7 @@ router.route('/login')
                 title: req.body.title,
                 content: req.body.content,
                 date_posted: req.body.date_posted,
-                user_id: req.session.userId
+                user_id: req.session.userId//check to see if this returns anything
             });
             res.status(200).json({user: newPost, message: 'New Post created'});
         } catch(err) {
@@ -75,5 +74,29 @@ router.route('/login')
             res.status(500).json(err);
         }
     });
+
+    router.put('/editPosts', async(req, res) =>{
+        try{
+            const selectedPost = await Post.findOne({
+                where: {
+                    id: req.body.postId                
+                }
+            });
+            
+            if(!selectedPost){
+                // console.log('no user selected');
+                res.status(500).json('no user selected')
+            } else {
+                selectedPost.title = req.body.updatedTitle;
+                selectedPost.content = req.body.updatedContent;
+                await selectedPost.save()
+                res.status(200).json(selectedPost);
+            }
+            
+
+        } catch (err) {
+            res.status(500).json('Something went wrong');
+        }
+    })
 
     module.exports = router;
