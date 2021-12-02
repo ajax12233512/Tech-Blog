@@ -3,6 +3,19 @@
         <h1 class="title is-1">Welcome to the Techblog</h1>
         <p class="title is-2">Post your tech reviews on any products!</p>
     <div>
+
+    {{#if loggedIn}}
+        <div class="box has-background-primary-light">
+        {{#each plainAllPosts}}
+         <a href="/posts/{{id}}" class="p-2">
+            <div class="box has-background-primary">
+                    <h1 class="title is-2">{{title}}</h1>
+                    <p class="is-size-4">{{content}}</p>
+            </div>
+        </a>
+        {{/each}}
+        </div>
+    {{else}}
     <div class="box has-background-primary-light">
         {{#each plainAllPosts}}
             <div class="box has-background-primary">
@@ -11,4 +24,5 @@
             </div>
         {{/each}}
     </div>
+      {{/if}}
 </div>

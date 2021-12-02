@@ -2,7 +2,7 @@ const logout = document.getElementById('logout');
 
 logout.addEventListener('click', (e) => {
     e.preventDefault();
-    fetch('api/users/logout', {
+    fetch('/api/users/logout', {
         method: 'DELETE',  
     }).then((response) =>{
         console.log(response);

@@ -11,6 +11,7 @@ const postData = [
         title: 'John Post',
         content: "Johns awesome post",
         date_posted: Date.now(),
+        // comments: ['This is first comment', 'This is second comment'],
         user_id: 2
     },
     {

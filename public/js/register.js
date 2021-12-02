@@ -15,9 +15,7 @@ window.addEventListener('submit', (e)=>{
         } else{
            alert('Something went wrong');
         }
-    }).then((response) => {
-        
-    });
+    })
     
     fetchRequest();
 });

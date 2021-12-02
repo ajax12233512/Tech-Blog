@@ -1,0 +1,29 @@
+<div class="container has-text-centered">
+    <div class="box has-background-primary p-5">
+        <h1 id="postId">{{post.dataValues.id}}</h1>
+        <h1 class="title is-1">{{post.dataValues.title}}</h1>
+        <div class="box has-background-primary-light p-8">
+            <p class="is-size-1">{{post.dataValues.content}}</p>
+        </div>
+    </div>
+
+    <div class="box has-background-primary-light has-text-left">
+        {{#each post.dataValues.comments as |comment|}}
+        <h2 class="is-size-4">{{comment.dataValues.content}}</h2>
+        <h2 class="is-size-5 has-text-weight-light">{{comment.dataValues.user.dataValues.username}}</h2>
+        {{/each}}
+    </div>
+
+    <div>
+        <button id="commentBtn" class="button is-primary">Comment</button>
+    </div>
+    <div id="formBox" class="box" style="display: none">
+        <form id="commentForm">
+            <label class="has-text-left" for="content">Content</label>
+            <input class="input" id="content" placeholder="Enter Comment">
+            <button id="submitCommentBtn" class="button is-success">Sumbit</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/viewPost.js"></script>

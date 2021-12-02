@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Post } = require('../models');
 const { User } = require('../models');
+const { Comment } = require('../models');
 
 router.get('/', async (req, res) =>{
     try{
@@ -54,6 +55,15 @@ router.get('/allUsers', async (req, res)=>{
     }
 });
 
+router.get('/allComments', async (req, res) => {
+    try{
+        const allComments = await Comment.findAll()
+        res.json(allComments)
+    } catch (err){
+        res.json(err)
+    }
+});
+
 router.route('/register')
     .get((req, res) =>{
         res.render('register', {loggedIn : req.session.loggedIn});
@@ -83,5 +93,36 @@ router.route('/posts')
         }
     })
 
+router.get('/posts/:id', async(req, res) =>{
+    try{
+        const post = await Post.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: [ 
+                {
+                    model: Comment,
+                    include: [
+                        {
+                            model: User
+                        }
+                    ]
+                },
+            ],
+            plain: true
+        });
+
+        console.log(post)
+        
+        if(!post){
+            res.status(500).json({message: 'User not found'});
+        } else {
+            res.status(200).render('viewPost', { post, loggedIn: req.session.loggedIn });
+            // res.status(200).json(post);
+        } 
+    } catch (err) {
+        res.status(500).json({message: 'Error in server', err})
+    }
+});
     
 module.exports = router;
